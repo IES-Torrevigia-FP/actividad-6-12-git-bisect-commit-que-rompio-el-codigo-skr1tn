@@ -11,3 +11,4 @@ if __name__ == "__main__":
     print(siguiente(valor))
 # Log: añadido comentario 1
 # Log: añadido comentario 2
+# Log: añadido comentario 3
