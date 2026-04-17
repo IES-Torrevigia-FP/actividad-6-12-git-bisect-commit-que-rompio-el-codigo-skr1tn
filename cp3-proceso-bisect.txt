@@ -1,0 +1,46 @@
+# Checkpoint 3 - Proceso git bisect manual
+
+## Commit marcado como GOOD (sin bug)
+Hash: e0d5ec7
+Mensaje: Versión inicial correcta de contador
+
+Razón: Es el primer commit del historial. En este commit la función
+siguiente() retorna n + 1, lo cual es correcto.
+Verificación: python contador.py 5 -> 6 (GOOD)
+
+## Commit marcado como BAD inicial (con bug)
+Hash: a984b03
+Mensaje: Añade comentario 3
+
+Razón: Es el HEAD (commit más reciente). Contiene el bug porque
+en commits anteriores se introdujo return n + 2.
+Verificación: python contador.py 5 -> 7 (BAD)
+
+## Proceso de búsqueda binaria
+
+Paso 1:
+  git bisect start
+  git bisect bad             # HEAD = a984b03 (Añade comentario 3)
+  git bisect good e0d5ec7    # Versión inicial correcta de contador
+  -> Git hace checkout de b0ca396 (Commit central del rango)
+
+Paso 2: Checkout en b0ca396 (Añade comentario 2)
+  python contador.py 5 -> 6
+  git bisect good
+  -> Git hace checkout de e7c73c9
+
+Paso 3: Checkout en e7c73c9 (Introduce bug en siguiente (suma 2))
+  python contador.py 5 -> 7
+  git bisect bad
+  -> Git identifica el primer commit malo
+
+## Resultado: First bad commit
+Hash: e7c73c9
+Mensaje: Introduce bug en siguiente (suma 2)
+
+Este es el commit donde se introdujo el bug: la función siguiente()
+pasó de retornar n + 1 a retornar n + 2.
+
+## Fin del proceso
+  git bisect reset
+  -> Vuelve a HEAD (a984b03)
