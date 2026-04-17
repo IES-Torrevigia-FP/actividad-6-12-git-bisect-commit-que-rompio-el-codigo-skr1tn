@@ -1,0 +1,50 @@
+# Checkpoint 4 - git bisect run (parte opcional)
+
+## Contenido de test_contador.sh
+
+#!/bin/bash
+# test_contador.sh - Script para git bisect run
+# Retorna 0 (good) si python contador.py 5 imprime 6
+# Retorna 1 (bad)  si imprime cualquier otro valor
+
+python contador.py 5 | grep -qx "6"
+
+## Explicación del script
+
+El script usa grep -qx "6" para comprobar si la salida es exactamente "6".
+- Código de salida 0: grep encontró "6" -> commit GOOD
+- Código de salida 1: grep no encontró "6" -> commit BAD
+
+## Comandos ejecutados
+
+git bisect start
+git bisect bad                # HEAD = a984b03
+git bisect good e0d5ec7       # Versión inicial correcta
+chmod +x test_contador.sh
+git bisect run ./test_contador.sh
+
+## Resultado final de git bisect run
+
+Running: ./test_contador.sh
+Bisecting: 1 revision left to test after this (roughly 1 step)
+[b0ca396] Añade comentario 2
+Running: ./test_contador.sh
+Bisecting: 0 revisions left to test after this (roughly 0 steps)
+[e7c73c9] Introduce bug en siguiente (suma 2)
+Running: ./test_contador.sh
+e7c73c9 is the first bad commit
+commit e7c73c9
+Author: skr1tn
+Date:   Fri Apr 17 12:00:00 2026 +0200
+
+    Introduce bug en siguiente (suma 2)
+
+counting.py  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+bisect run success
+
+## Conclusión
+
+git bisect run con el script automático identificó el mismo commit
+que el proceso manual: e7c73c9 - "Introduce bug en siguiente (suma 2)"
