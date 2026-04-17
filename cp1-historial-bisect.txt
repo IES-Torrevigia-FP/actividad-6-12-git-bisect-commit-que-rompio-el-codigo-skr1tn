@@ -1,0 +1,8 @@
+# Salida de: git log --oneline
+# Ejecutado en el repositorio actividad-6-12-git-bisect
+
+a984b03 Añade comentario 3
+e7c73c9 Introduce bug en siguiente (suma 2)
+b0ca396 Añade comentario 2
+da703df Añade comentario 1
+e0d5ec7 Versión inicial correcta de contador
