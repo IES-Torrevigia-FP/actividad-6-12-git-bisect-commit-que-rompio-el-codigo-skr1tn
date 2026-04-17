@@ -1,0 +1,22 @@
+# Checkpoint 2 - Prueba manual para determinar good/bad en git bisect
+
+## Comando de prueba
+
+python contador.py 5
+
+## Resultado actual (HEAD = a984b03 - Añade comentario 3)
+
+Resultado obtenido: 7
+
+El commit actual (HEAD) contiene el bug porque la función siguiente()
+devuelve n + 2 en lugar de n + 1. Al ejecutar python contador.py 5
+se obtiene 7 en vez de 6.
+
+## Criterio good/bad
+
+- Si el resultado es 6  -> El commit es GOOD (comportamiento correcto)
+- Si el resultado es 7  -> El commit es BAD  (bug presente)
+
+La función siguiente(n) debe retornar n + 1.
+Cualquier commit donde `python contador.py 5` imprima 6 es bueno.
+Cualquier commit donde imprima 7 (o cualquier otro valor incorrecto) es malo.
